@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<efx:project name="Microcomputer_TTY" description="" last_change_date="Thu December 8 2022 14:35:16" location="/home/louie/s100/s100projects/MC-2G-1024-T35/Microcomputer_louie" sw_version="2022.1.226.2.11" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="true" design_ood="sync" place_ood="sync" route_ood="sync" xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
+<efx:project name="Microcomputer_louie" description="" last_change_date="Sun December 11 2022 22:14:13" location="/home/louie/s100/s100projects/MC-2G-1024-T35/Microcomputer_louie" sw_version="2022.1.226.2.11" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="true" design_ood="change" place_ood="sync" route_ood="sync" xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
     <efx:device_info>
         <efx:family name="Trion"/>
         <efx:device name="T35F400"/>
@@ -18,8 +18,8 @@
         <efx:design_file name="../Multicomp-Z80/14-Multicomp/Components/Z80/T80_ALU.vhd" version="default" library="default"/>
         <efx:design_file name="../Multicomp-Z80/14-Multicomp/Components/BRG/brg.vhd" version="default" library="default"/>
         <efx:design_file name="../Multicomp-Z80/14-Multicomp/Components/UART/bufferedUART.vhd" version="default" library="default"/>
-        <efx:design_file name="../Multicomp-Z80/14-Multicomp/Components/SDCARD/sd_controller.vhd" version="default" library="default"/>
         <efx:design_file name="../Multicomp-Z80/14-Multicomp/Components/MMU/MMU4.vhd" version="default" library="default"/>
+        <efx:design_file name="sd_controller.vhd" version="default" library="default"/>
         <efx:top_vhdl_arch name="struct"/>
     </efx:design_info>
     <efx:constraint_info>
