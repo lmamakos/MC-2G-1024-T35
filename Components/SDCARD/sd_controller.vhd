@@ -1,6 +1,9 @@
 -- VHDL SD card interface
 -- Reads and writes a single block of data as a data stream
 
+-- Imported and slighty modified from https://github.com/DavidJRichards/Multicomp-Z80
+-- by Louis Mamakos, March 2023, standing on the shoulders of others.
+
 -- Adapted from design by Steven J. Merrifield, June 2008
 -- Read states are derived from the Apple II emulator by Stephen Edwards
 
@@ -103,7 +106,8 @@ entity sd_controller is
 generic (
         constant CLKEDGE_DIVIDER : integer := 100;	-- 50MHz / 100 gives edges at 500kHz ie output
 																	-- or sdSCLK of 250kHz to be used during init phase
-		constant HS_CLKEDGE_DIVIDER : integer := 2-- 50MHz / 2 give edges at 25MHz or sdCLCK of 12.5MHz in highspeed mode
+        constant HS_CLKEDGE_DIVIDER : integer := 2      -- 50MHz / 2 give edges at 25MHz or
+                                                        -- sdCLCK of 12.5MHz in highspeed mode
 );
 port (
 	sdCS : out std_logic;
@@ -152,7 +156,6 @@ type states is (
 
 -- one start byte, plus 512 bytes of data, plus two ff end bytes (crc)
 constant write_data_size : integer := 515;
--- constant HS_CLKEDGE_DIVIDER : integer := 10; -- 50MHz / 10 give edges at 5MHz or sdCLCK of 2.5MHz in highspeed mode
 
 
 signal state, return_state : states;
