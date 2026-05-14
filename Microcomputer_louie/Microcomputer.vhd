@@ -90,6 +90,8 @@ architecture struct of Microcomputer is
 	signal sdCardDataOut			: std_logic_vector(7 downto 0);
 	signal n_sdCardCS				: std_logic := '1';
 
+	signal timer1DataOut            : std_logic_vector(7 downto 0);
+	signal n_timer1CS                 : std_logic := '1';
 
 begin
 
@@ -235,6 +237,22 @@ begin
 		driveLED	=> segment7(7),   -- use decimal point for drive activity
 		clk			=> clk		-- 50 MHz clock = 25 MHz SPI clock
 	);
+
+	timer1 : entity work.timer
+	generic map(
+		clk_frequency => 50 * 1000000  -- 50 MHz clock
+	)
+	port map(
+		clk			=> clk,
+		reset       => not n_reset,
+		cpu_address => cpuAddress(2 downto 0),
+		data_in     => cpuDataOut,
+		data_out    => timer1DataOut,
+		enable      => not n_timer1CS,
+		req_read    => not n_ioRD,
+		req_write   => not n_ioWR
+		-- interrupt   => foo
+	);
 -- ____________________________________________________________________________________
 -- MEMORY READ/WRITE LOGIC GOES HERE
 	n_ioWR 			<= n_WR or n_IORQ;
@@ -262,6 +280,7 @@ begin
 -- ____________________________________________________________________________________
 -- CHIP SELECTS GO HERE
 	n_monRomCS 		<= '0' when cpuAddress(15 downto 11) = "00000" and n_RomActive = '0' else '1'; 					-- 2K low memory
+	n_timer1CS      <= '0' when cpuAddress(7 downto 3) = "01100" and  (n_ioWR = '0' or n_ioRD = '0') else '1';   	-- 8 Bytes  $60-$67
 	n_brg1 			<= '0' when cpuAddress(7 downto 0) = "01111011" and (n_ioWR = '0' or n_ioRD = '0') else '1'; 	-- 1 Byte 	$7B
 	n_brg2 			<= '0' when cpuAddress(7 downto 0) = "01111100" and (n_ioWR = '0' or n_ioRD = '0') else '1'; 	-- 1 Byte 	$7C
 	n_interface1CS <= '0' when cpuAddress(7 downto 1) = "1000000" and (n_ioWR = '0' or n_ioRD = '0') else '1'; 	-- 2 Bytes 	$80-$81
@@ -272,6 +291,7 @@ begin
 -- ____________________________________________________________________________________
 -- BUS ISOLATION GOES HERE
 	cpuDataIn <=
+		timer1DataOut when n_timer1CS = '0' else
 		interface1DataOut when n_interface1CS = '0' else
 		interface2DataOut when n_interface2CS = '0' else
 		sdCardDataOut when n_sdCardCS = '0' else
