@@ -160,6 +160,7 @@ begin
                             when "00000001" => upcounter_value <= (others => '0');
                             when "00000010" => upcounter_latch <= upcounter_value;
                             when "00000011" => downcounter_value <= downcounter_start;
+                            when "00000110" => upcounter_latch <= upcounter_value - upcounter_latch;
                             when "00010000" => regmux_select <= "00";
                             when "00010001" => regmux_select <= "01";
                             when "00010010" => regmux_select <= "10";
